@@ -12,17 +12,17 @@ module.exports = (robot) ->
       data = req.body
       console.log data
 
-      # secret = data.hook.config.secret
-      # console.log "Secret: ", secret
-
       title = data.pull_request.title
       pull_url = data.pull_request.html_url
       contributor = data.pull_request.user.login
 
+      console.log "ACTION: ", data.action
+      console.log "MERGED: ", data.merged_at
+
       if data.action == "opened"
         robot.messageRoom "#general", "Yay! *#{contributor}* wrote a new feature for me! *#{title}*\n > #{pull_url}"
 
-      if data.action == "closed" && data.merged
+      if data.action == "closed" && data.merged_at
         robot.messageRoom "#general", "Yay! A new feature *#{title}* by *#{contributor}* for me was merged!\n> #{pull_url}"
 
     res.send 'OK'
