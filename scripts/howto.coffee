@@ -1,7 +1,3 @@
-https://github.com/github/hubot/blob/master/docs/scripting.md
-
-module.exports = (robot) ->
-
   githash = {}
 
   githash["one"] = ["git init", "Create an empty Git repository or reinitialize an existing one", "https://git-scm.com/docs/git-init"]
