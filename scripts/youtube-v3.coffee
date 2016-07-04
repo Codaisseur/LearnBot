@@ -44,5 +44,8 @@ module.exports = (robot) ->
           msg. send "No video results for \"#{query}\""
           return
 
-        videoId = videos[2].id.videoId
-        msg.send "http://www.youtube.com/watch?v=#{videoId}"
+        vids = for video in videos[0..3]
+          videoId = video.id.videoId
+          "http://www.youtube.com/watch?v=#{videoId}"
+
+        msg.send vids.join("\n")
