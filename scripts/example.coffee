@@ -8,7 +8,46 @@
 #
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
+module.exports = (robot) ->
+  robot.respond /npm search (.*)/i, (msg) ->
+    searchQuery = msg.match[1]
 
+    packageSearch msg, searchQuery
+
+  packageSearch = (msg, searchQuery) ->
+    data = ""
+    msg.http("https://www.npmjs.com/search?q=")
+      .query
+        search: encodeURIComponent(searchQuery)
+      .get( (err, req)->
+        req.addListener "response", (res)->
+          output = res
+
+          output.on 'data', (d)->
+            data += d.toString('utf-8')
+
+          output.on 'end', ()->
+            parsedData = JSON.parse(data)
+
+            if parsedData.error
+              msg.send "Error searching Packages: #{parsedData.error}"
+              return
+
+            if parsedData.length > 0
+              console.log ("hi")
+      )()
+
+
+
+            # if parsedData.length > 0
+            #   qs = for article in parsedData[0..3]
+            #     "https://read.codaisseur.com/topics/#{article.topics[0].slug}/articles/#{article.slug} - #{article.title}"
+            #   if parsedData.total-5 > 0
+            #     qs.push "#{parsedData.total-3} more..."
+            #   for ans in qs
+            #     msg.send ans
+            #   else
+            #     msg.reply "No articles found matching that search."
 
   # robot.hear /badger/i, (msg) ->
   #   msg.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
