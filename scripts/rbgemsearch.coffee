@@ -27,4 +27,4 @@ module.exports = (robot) ->
 
         return msg.send "Your search failed. Refactor your search inputz plix" unless gem
 
-        msg.send "#{gem.name} - #{gem.info}\nlatest release: #{gem.version} - #{gem.project_uri} \nRuby gem documentation: #{gem.documentation_uri} \nGithub gem source code: #{gem.source_code_uri} \nHugzs and Kisses Ward. "
+        msg.send "#{gem.name} - #{gem.info}\nlatest release: #{gem.version} - #{gem.project_uri} \nRuby gem documentation: #{gem.documentation_uri} \nGithub gem source code: #{gem.source_code_uri}Hugzs&Kisses W."
