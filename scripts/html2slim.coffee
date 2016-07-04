@@ -8,8 +8,12 @@
 #   Aeshta and Rosiene
 
 module.exports = (robot) ->
-  robot.respond /erb2slim (.*)/i , (msg) ->
-    code = msg.match[1]
+  robot.respond /html2slim (.*)|erb2slim (.*)/ , (msg) ->
+    if msg.match[1]
+      code = msg.match[1]
+    else
+      code = msg.match[2]
+
     open_erb2slim msg, code
 
 open_erb2slim = (msg, code) ->
