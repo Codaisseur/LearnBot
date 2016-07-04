@@ -44,6 +44,9 @@ articleSearch = (msg, searchQuery) ->
           if parsedData.length > 0
             results = for article in parsedData[0..3]
               link = "https://read.codaisseur.com/topics/#{article.topics[0].slug}/articles/#{article.slug}"
+              topics = for topic in article.topics
+                topic.title
+
               {
                 fallback: "<#{link}|#{article.title}>"
                 color: "#c1272d"
@@ -52,7 +55,7 @@ articleSearch = (msg, searchQuery) ->
                 fields: [
                   {
                     title: "Topics",
-                    topics: article.topics.join(", ")
+                    value: topics.join(", ")
                     short: false
                   }
                 ]
