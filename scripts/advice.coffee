@@ -17,6 +17,7 @@
 #   pengwynn
 #
 getAdvice = (msg, query) ->
+  query = encodeURIComponent(query)
   msg.http("http://api.adviceslip.com/advice/search/#{query}")
     .get() (err, res, body) ->
       results = JSON.parse body
