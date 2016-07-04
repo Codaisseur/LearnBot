@@ -8,11 +8,8 @@
 #   Aeshta and Rosiene
 
 module.exports = (robot) ->
-  robot.respond /html2slim (.*)|erb2slim (.*)/ , (msg) ->
-    if msg.match[1]
-      code = msg.match[1]
-    else
-      code = msg.match[2]
+  robot.respond /(html|erb)2slim (.*)/ , (msg) ->
+    code = msg.match[2]
 
     open_erb2slim msg, code
 
@@ -37,6 +34,6 @@ open_erb2slim = (msg, code) ->
             msg.send "Error: #{parsedData.error}"
             return
 
-          msg.send parsedData.converted_txt
+          msg.send "```\n" + parsedData.converted_txt + "\n```"
 
     )()
