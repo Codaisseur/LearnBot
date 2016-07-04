@@ -42,12 +42,40 @@ articleSearch = (msg, searchQuery) ->
             return
 
           if parsedData.length > 0
-            i = 0
-            qs = for article in parsedData[0..3]
-              "#{++i}. <https://read.codaisseur.com/topics/#{article.topics[0].slug}/articles/#{article.slug}|#{article.title}>"
-            if parsedData.total-3 > 0
-              qs.push "#{parsedData.total-3} more..."
-            msg.send qs.join("\n")
+            results = for article in parsedData[0..3]
+              link = "https://read.codaisseur.com/topics/#{article.topics[0].slug}/articles/#{article.slug}"
+              {
+                fallback: "<#{link}|#{article.title}>"
+                color: "#c1272d"
+                title: article.title
+                title_link: link
+                fields: [
+                  {
+                    title: "Topics",
+                    topics: article.topics.join(", ")
+                    short: false
+                  }
+                ]
+              }
+
+            richMessage = {
+              text: "I found #{parsedData.length} articles in the reader about *#{searchQuery}:"
+              attachments: results
+              channel: msg.envelope.room
+              username: msg.robot.name
+            }
+
+            if parsedData.length-3 > 0
+              console.log "Moaarrrr"
+              richMessage.attachments.push {
+                fallback: "<View #{parsedData.length-3} more results|https://read.codaisseur.com/search?search=#{encodeURIComponent(searchQuery)}"
+                title: "View #{parsedData.length-3} more results"
+                title_link: "https://read.codaisseur.com/"
+                color: "warning"
+              }
+
+            msg.robot.adapter.customMessage richMessage
+
           else
             msg.reply "No articles found matching that search."
     )()
