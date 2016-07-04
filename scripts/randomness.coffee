@@ -12,3 +12,6 @@ module.exports = (robot) ->
 
   robot.hear /(^|\s)hat(e|i)(r|s|ng)?(\s|.?$)/i, (msg) ->
     msg.send "*Haters gonna hate* #{msg.random haters}"
+
+  robot.hear /phew/i, (msg) ->
+    msg.reply "_That's a relief!_"
