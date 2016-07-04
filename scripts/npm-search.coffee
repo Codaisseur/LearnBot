@@ -15,6 +15,6 @@ module.exports = (robot) ->
     npmsearch searchQuery, (error, packages) ->
 
       pkgs = for pkg in packages[0..3]
-        "*#{pkg.name}*\n#{pkg.description} #{pkg.url}"
+        "*#{pkg.name}*\n#{pkg.description}"
 
       msg.send pkgs.join("\n")
