@@ -4,7 +4,7 @@
 
 module.exports = (robot) ->
   robot.router.post '/deploys', (req, res) ->
-    data = req.query
+    data = req.body
     console.log data
 
     console.log "VERSION: ", data.release
