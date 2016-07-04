@@ -27,4 +27,21 @@ module.exports = (robot) ->
 
         return msg.send "Your search failed. Refactor your search inputz plix" unless gem
 
-        msg.send "#{gem.name} - #{gem.info}\nlatest release: #{gem.version} - #{gem.project_uri} \nRuby gem documentation: #{gem.documentation_uri} \nGithub gem source code: #{gem.source_code_uri} - Hugzs&Kisses W."
+        richMessage = {
+          text: "I found:#{gem.name} - #{gem.info}"
+          attachments: results
+          channel: msg.envelope.room
+          username: msg.robot.name
+        }
+
+            console.log "Moaarrrr"
+          richMessage.attachments.push {
+            text: "latest release: #{gem.version}"
+            text: "Link to rubygems.org gem page: #{gem.project_uri}"
+            text: "Ruby gem documentation: #{gem.documentation_uri}"
+            text: "Github gem source code: #{gem.source_code_uri}"
+            text: "Hugzs&Kisses W."
+            color: "warning"
+          }
+
+        msg.robot.adapter.customMessage richMessage
