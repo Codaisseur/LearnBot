@@ -34,7 +34,6 @@ module.exports = (robot) ->
           username: msg.robot.name
         }
 
-            console.log "Moaarrrr"
           richMessage.attachments.push {
             text: "latest release: #{gem.version}"
             text: "Link to rubygems.org gem page: #{gem.project_uri}"
