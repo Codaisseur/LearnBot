@@ -13,34 +13,49 @@ module.exports = (robot) ->
     query = msg.match[2]
     robot.http("https://rubygems.org/api/v1/search.json")
       .query({
-        query: query
+        query: encodeURIComponent(query)
       })
-      .get() (err, res, body) ->
 
+      .get() (err, res, body) ->
         return msg.send "Error :: #{err}" if err
+
         try
           gems = JSON.parse(body)
         catch error
           return msg.send "Error :: rubygems api error."
 
-        gem = gems.reverse().pop()
+        return msg.send "Your search failed. Refactor your search inputz plix" unless gems.length > 0
 
-        return msg.send "Your search failed. Refactor your search inputz plix" unless gem
+        results = for gem in gems[0..3]
+          console.log gem
+
+          {
+            fallback: "<#{gem.project_uri}|#{gem.name}>"
+            color: "#c1272d"
+            title: gem.name
+            title_link: gem.project_uri
+            author_name: gem.authors
+            author_link: gem.project_uri
+            pretext: "<#{gem.project_uri}|#{gem.name}> #{gem.info}"
+            fields: [
+              {
+                title: "Docs",
+                value: gem.documentation_uri
+                short: false
+              },
+              {
+                title: "Source",
+                value: gem.source_code_uri
+                short: false
+              }
+            ]
+          }
 
         richMessage = {
-          text: "I found:#{gem.name} - #{gem.info}"
+          text: "I found #{gems.length} gems:"
           attachments: results
           channel: msg.envelope.room
           username: msg.robot.name
         }
-
-          richMessage.attachments.push {
-            text: "latest release: #{gem.version}"
-            text: "Link to rubygems.org gem page: #{gem.project_uri}"
-            text: "Ruby gem documentation: #{gem.documentation_uri}"
-            text: "Github gem source code: #{gem.source_code_uri}"
-            text: "Hugzs&Kisses W."
-            color: "warning"
-          }
 
         msg.robot.adapter.customMessage richMessage
