@@ -42,12 +42,12 @@ articleSearch = (msg, searchQuery) ->
             return
 
           if parsedData.length > 0
+            i = 0
             qs = for article in parsedData[0..3]
-              "https://read.codaisseur.com/topics/#{article.topics[0].slug}/articles/#{article.slug} - #{article.title}"
-            if parsedData.total-5 > 0
+              "#{++i}. <https://read.codaisseur.com/topics/#{article.topics[0].slug}/articles/#{article.slug}|#{article.title}>"
+            if parsedData.total-3 > 0
               qs.push "#{parsedData.total-3} more..."
-            for ans in qs
-              msg.send ans
+            msg.send qs.join("\n")
           else
             msg.reply "No articles found matching that search."
     )()
