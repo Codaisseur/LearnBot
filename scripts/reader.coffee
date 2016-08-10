@@ -73,7 +73,7 @@ articleSearch = (msg, searchQuery) ->
               richMessage.attachments.push {
                 fallback: "<View #{parsedData.length-3} more results|https://read.codaisseur.com/search?search=#{encodeURIComponent(searchQuery)}"
                 title: "View #{parsedData.length-3} more results"
-                title_link: "https://read.codaisseur.com/"
+                title_link: "https://read.codaisseur.com/search?search=#{encodeURIComponent(searchQuery)}"
                 color: "warning"
               }
 
